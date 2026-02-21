@@ -37,7 +37,6 @@ bool init_sdl(sdl_t *sdl, const config_t config){
 }
 
 void final_cleanup(void){
-
     SDL_Quit();
 }
 
