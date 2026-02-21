@@ -18,7 +18,6 @@ void final_cleanup(void){
 int main(int argc, char *argv[]){
     (void) argc;
     (void) argv;
-    puts("TESTING ON LINUX");    
 
     if(!init_sdl()){
         exit(EXIT_FAILURE);
