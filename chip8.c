@@ -75,6 +75,9 @@ void clear_screen(const sdl_t sdl, const config_t config){
     SDL_RenderClear(sdl.renderer);
 }
 
+void update_screen(const sdl_t sdl){
+    SDL_RenderPresent(sdl.renderer);
+}
 
 
 int main(int argc, char *argv[]){
@@ -92,7 +95,10 @@ int main(int argc, char *argv[]){
     clear_screen(sdl, config);
 
     while(true){
-
+        // Delay for approximately 60 fps
+        // Should be 16 - elapsed time to execute instructions
+        SDL_Delay(16);
+        update_screen(sdl);
     }
 
     final_cleanup(sdl);
