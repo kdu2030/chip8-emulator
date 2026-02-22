@@ -6,6 +6,7 @@
 
 typedef struct {
     SDL_Window *window;
+    SDL_Renderer *renderer;
 } sdl_t;
 
 typedef struct {
@@ -33,6 +34,13 @@ bool init_sdl(sdl_t *sdl, const config_t config){
         return false;
     }
 
+    sdl->renderer = SDL_CreateRenderer(sdl->window, -1, SDL_RENDERER_ACCELERATED);
+
+    if(!sdl->renderer){
+        SDL_Log("Could not create SDL Renderer %s", SDL_GetError());
+        return false;
+    }
+
     return true;
 }
 
@@ -48,6 +56,7 @@ bool set_config_from_args(config_t *config, int argc, char *argv[]){
 }
 
 void final_cleanup(sdl_t sdl){
+    SDL_DestroyRenderer(sdl.renderer);
     SDL_DestroyWindow(sdl.window);
     SDL_Quit();
 }
