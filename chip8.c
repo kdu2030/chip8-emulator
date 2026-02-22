@@ -14,6 +14,7 @@ typedef struct {
    uint32_t window_height;
    uint32_t fg_color; // Foreground color RGBA8888
    uint32_t bg_color; // Background color RGBA8888
+   uint32_t scale_factor; // Amount to scale a Chip8 Pixel by
 } config_t;
 
 bool init_sdl(sdl_t *sdl, const config_t config){
@@ -26,8 +27,8 @@ bool init_sdl(sdl_t *sdl, const config_t config){
         "Chip8 Emulator", 
         SDL_WINDOWPOS_CENTERED, 
         SDL_WINDOWPOS_CENTERED, 
-        config.window_width, 
-        config.window_height, 
+        config.window_width * config.scale_factor, 
+        config.window_height * config.scale_factor, 
         0
     );
 
@@ -50,8 +51,9 @@ bool set_config_from_args(config_t *config, int argc, char *argv[]){
     *config = (config_t){
         .window_width = 64,
         .window_height = 32,
-        .fg_color = 0xFFFF00FF, // Yellow
-        .bg_color = 0x00000000 // Black
+        .fg_color = 0xFFFFFFFF, // White
+        .bg_color = 0xFFFF00FF, // Black
+        .scale_factor = 20
     };
 
     (void) argc;
