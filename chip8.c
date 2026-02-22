@@ -53,9 +53,6 @@ void final_cleanup(sdl_t sdl){
 }
 
 int main(int argc, char *argv[]){
-    (void) argc;
-    (void) argv;
-
     sdl_t sdl = {0};
     config_t config = {0};
 
