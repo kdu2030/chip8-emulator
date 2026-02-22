@@ -104,9 +104,18 @@ void handle_input(chip8_t *chip8){
             case SDL_QUIT:
                 chip8->state = QUIT;
                 return;
-            case SDL_KEYUP:
-                break;
+            
             case SDL_KEYDOWN:
+                switch(event.key.keysym.sym){
+                    case SDLK_ESCAPE:
+                        chip8->state = QUIT;
+                        return;
+                    default:
+                        break;
+                }
+
+                break;
+            case SDL_KEYUP:
                 break;
         }
     }
