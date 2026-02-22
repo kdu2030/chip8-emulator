@@ -30,6 +30,7 @@ typedef struct {
     uint16_t stack[12];     // Subroutine stack
     uint8_t V[16];          // Data registers V0 - VF
     uint16_t I;             // Index register
+    uint16_t PC;            // Program counter
     uint8_t delay_timer;    // Decrements at 60hz when greater than 0
     uint8_t sound_timer;    // Decrements at 60hz and plays tone when >0
     bool keypad[16];        // Hexadecimal keypad
@@ -81,7 +82,12 @@ bool set_config_from_args(config_t *config, int argc, char *argv[]){
 }
 
 bool init_chip8(chip8_t *chip8){
+    
+
     chip8->state = RUNNING;
+
+
+
     return true;
 }
 

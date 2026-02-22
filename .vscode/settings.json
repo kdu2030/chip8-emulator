@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/kdu2030/git/chip8-emulator/bin",
+            "binaryPath": "/home/kdu2030/git/chip8-emulator/bin/chip8",
+            "binaryArgs": []
+        }
+    ]
+}
