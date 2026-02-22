@@ -65,6 +65,18 @@ void final_cleanup(sdl_t sdl){
     SDL_Quit();
 }
 
+void clear_screen(const sdl_t sdl, const config_t config){
+    const uint8_t r = (config.bg_color >> 24) & 0xFF;
+    const uint8_t g = (config.bg_color >> 16) & 0xFF;
+    const uint8_t b = (config.bg_color >> 8) & 0xFF;
+    const uint8_t a = config.bg_color & 0xFF;
+
+    SDL_SetRenderDrawColor(sdl.renderer, r, g, b, a);
+    SDL_RenderClear(sdl.renderer);
+}
+
+
+
 int main(int argc, char *argv[]){
     sdl_t sdl = {0};
     config_t config = {0};
@@ -77,23 +89,11 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    const uint8_t foreground_r = config.fg_color >> 24;
-    const uint8_t foreground_g = config.fg_color >> 16;
-    const uint8_t foreground_b = config.fg_color >> 8;
+    clear_screen(sdl, config);
 
-    printf("R: %d \n", foreground_r);
-    printf("G: %d \n", foreground_g);
-    printf("B: %d \n", foreground_b);
+    while(true){
 
-    (void) foreground_r;
-    (void) foreground_g;
-    (void) foreground_b;
-    
-    SDL_RenderClear(sdl.renderer);
-
-    // while(true){
-
-    // }
+    }
 
     final_cleanup(sdl);
 
