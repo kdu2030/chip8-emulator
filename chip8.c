@@ -36,7 +36,19 @@ bool init_sdl(sdl_t *sdl, const config_t config){
     return true;
 }
 
-void final_cleanup(void){
+bool set_config_from_args(config_t *config, int argc, char *argv[]){
+    *config = (config_t){
+        .window_width = 64,
+        .window_height = 32
+    };
+
+    (void) argc;
+    (void) argv;
+    return true;
+}
+
+void final_cleanup(sdl_t sdl){
+    SDL_DestroyWindow(sdl.window);
     SDL_Quit();
 }
 
@@ -47,11 +59,15 @@ int main(int argc, char *argv[]){
     sdl_t sdl = {0};
     config_t config = {0};
 
-    if(!init_sdl(&sdl, )){
+    if(!set_config_from_args(&config, argc, argv)){
         exit(EXIT_FAILURE);
     }
 
-    final_cleanup();
+    if(!init_sdl(&sdl, config)){
+        exit(EXIT_FAILURE);
+    }
+
+    final_cleanup(sdl);
 
     exit(EXIT_SUCCESS);
 }
