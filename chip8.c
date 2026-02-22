@@ -25,6 +25,15 @@ typedef enum {
 
 typedef struct {
     emulator_state_t state;
+    uint8_t ram[4096];
+    bool display[64*32];    // Emulate original chip8 resolution
+    uint16_t stack[12];     // Subroutine stack
+    uint8_t V[16];          // Data registers V0 - VF
+    uint16_t I;             // Index register
+    uint8_t delay_timer;    // Decrements at 60hz when greater than 0
+    uint8_t sound_timer;    // Decrements at 60hz and plays tone when >0
+    bool keypad[16];        // Hexadecimal keypad
+    char *rom_name;         // Name of the program
 } chip8_t;
 
 bool init_sdl(sdl_t *sdl, const config_t config){
