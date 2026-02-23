@@ -195,6 +195,11 @@ void handle_input(chip8_t *chip8){
 }
 
 int main(int argc, char *argv[]){
+    if(argc < 2){
+        fprintf(stderr, "Usage: %s <rom_name>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
     sdl_t sdl = {0};
     config_t config = {0};
 
