@@ -104,8 +104,7 @@ bool init_chip8(chip8_t *chip8, const char rom_name[]){
 
     memcpy(&chip8->ram[0], font, sizeof(font));
 
-    chip8->state = RUNNING;
-    chip8->PC = entry_point;
+ 
 
     FILE *rom = fopen(rom_name, "rb");
     if(!rom){
@@ -114,11 +113,22 @@ bool init_chip8(chip8_t *chip8, const char rom_name[]){
     }
     
     fseek(rom, 0, SEEK_END);
-    const long rom_size = ftell(rom);
+    
+    const size_t rom_size = ftell(rom);
+    const size_t max_size = sizeof(chip8->ram) - entry_point;
+
+    if(rom_size > max_size){
+        SDL_Log("Rom file %s is too big. Rom size: %zu, Max size allowed: %zu \n", rom_name, rom_size, max_size);
+        fclose(rom);
+        return false;
+    }
+
     rewind(rom);
 
-
     fclose(rom);
+    
+    chip8->state = RUNNING;
+    chip8->PC = entry_point;
 
     return true;
 }
