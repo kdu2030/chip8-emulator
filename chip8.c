@@ -34,7 +34,7 @@ typedef struct {
     uint8_t delay_timer;    // Decrements at 60hz when greater than 0
     uint8_t sound_timer;    // Decrements at 60hz and plays tone when >0
     bool keypad[16];        // Hexadecimal keypad
-    char *rom_name;         // Name of the program
+    const char *rom_name;   // Name of the program
 } chip8_t;
 
 bool init_sdl(sdl_t *sdl, const config_t config){
@@ -107,6 +107,7 @@ bool init_chip8(chip8_t *chip8, const char rom_name[]){
  
 
     FILE *rom = fopen(rom_name, "rb");
+
     if(!rom){
         SDL_Log("ROM file %s is invalid or does not exist.\n", rom_name);
         return false;
@@ -117,18 +118,25 @@ bool init_chip8(chip8_t *chip8, const char rom_name[]){
     const size_t rom_size = ftell(rom);
     const size_t max_size = sizeof(chip8->ram) - entry_point;
 
+    rewind(rom);
+
     if(rom_size > max_size){
         SDL_Log("Rom file %s is too big. Rom size: %zu, Max size allowed: %zu \n", rom_name, rom_size, max_size);
         fclose(rom);
         return false;
     }
 
-    rewind(rom);
+    if(fread(&chip8->ram[entry_point], rom_size, 1, rom) != 1){
+        SDL_Log("Could not read Rom file %s into CHIP 8 Memory\n", rom_name);
+        fclose(rom);
+        return false;
+    }
 
     fclose(rom);
     
     chip8->state = RUNNING;
     chip8->PC = entry_point;
+    chip8->rom_name = rom_name;
 
     return true;
 }
@@ -192,7 +200,9 @@ int main(int argc, char *argv[]){
 
     chip8_t chip8 = {0};
 
-    if(!init_chip8(&chip8)){
+    const char* rom_name = argv[1];
+
+    if(!init_chip8(&chip8, rom_name)){
         exit(EXIT_FAILURE);
     }
 
