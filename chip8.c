@@ -175,6 +175,14 @@ void handle_input(chip8_t *chip8){
                     case SDLK_ESCAPE:
                         chip8->state = QUIT;
                         return;
+                    case SDLK_SPACE:
+                        if(chip8->state == RUNNING){
+                            chip8->state = PAUSED;
+                        } else {
+                            chip8->state = RUNNING;
+                            puts("==== PAUSED ====");
+                        }
+                        return;
                     default:
                         break;
                 }
@@ -210,6 +218,10 @@ int main(int argc, char *argv[]){
 
     while(chip8.state != QUIT){
         handle_input(&chip8);
+
+        if(chip8.state == PAUSED){
+            continue;
+        }
 
         // Delay for approximately 60 fps
         // Should be 16 - elapsed time to execute instructions
