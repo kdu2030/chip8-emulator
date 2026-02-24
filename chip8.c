@@ -72,7 +72,7 @@ bool set_config_from_args(config_t *config, int argc, char *argv[]){
         .window_width = 64,
         .window_height = 32,
         .fg_color = 0xFFFFFFFF, // White
-        .bg_color = 0xFFFF00FF, // Black
+        .bg_color = 0x000000FF, // Black
         .scale_factor = 20
     };
 
